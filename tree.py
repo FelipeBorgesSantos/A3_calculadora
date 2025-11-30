@@ -26,8 +26,8 @@ class ArvoreExpressao:
                 filho = pilha.pop()
                 pilha.append(No(token, esquerda=filho))
 
-            # número ou variável
-            elif ArvoreExpressao.is_number(token) or token.isalpha():
+            # número ou variável  
+            elif not ArvoreExpressao.eh_funcao(token) and not token in ArvoreExpressao.OPERADORES:
                 pilha.append(No(token))
 
             elif token in ArvoreExpressao.OPERADORES:
@@ -43,11 +43,3 @@ class ArvoreExpressao:
         if len(pilha) != 1:
             raise ValueError("Expressão malformada: resultado inválido")
         return pilha[0]
-
-    # @staticmethod
-    # def is_number(t):
-    #     try:
-    #         complex(t)
-    #         return True
-    #     except (ValueError, TypeError):
-    #         return False
