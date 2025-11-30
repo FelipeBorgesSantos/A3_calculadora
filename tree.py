@@ -1,53 +1,53 @@
-class Node:
-    def __init__(self, value, left=None, right=None):
-        self.value = value
-        self.left = left
-        self.right = right
+class No:
+    def __init__(self, valor, esquerda=None, direita=None):
+        self.valor = valor
+        self.esquerda = esquerda
+        self.direita = direita
 
 
-class ExpressionTree:
-    FUNCTIONS = ["conj", "raiz"]
-    OPERATORS = ["+", "-", "*", "/", "**"]
-
-    @staticmethod
-    def is_function(token):
-        return token in ExpressionTree.FUNCTIONS
+class ArvoreExpressao:
+    FUNCOES = ["conj", "raiz"]
+    OPERADORES = ["+", "-", "*", "/", "**"]
 
     @staticmethod
-    def from_postfix(postfix):
-        stack = []
+    def eh_funcao(token):
+        return token in ArvoreExpressao.FUNCOES
 
-        for token in postfix:
+    @staticmethod
+    def criar_de_posfixa(posfixa):
+        pilha = []
+
+        for token in posfixa:
 
             # função unária
-            if ExpressionTree.is_function(token):
-                if not stack:
-                    raise ValueError("Expressão malformada: funç��o sem operando")
-                child = stack.pop()
-                stack.append(Node(token, left=child))
+            if ArvoreExpressao.eh_funcao(token):
+                if not pilha:
+                    raise ValueError("Expressão malformada: função sem operando")
+                filho = pilha.pop()
+                pilha.append(No(token, esquerda=filho))
 
             # número ou variável
-            elif ExpressionTree.is_number(token) or token.isalpha():
-                stack.append(Node(token))
+            elif ArvoreExpressao.is_number(token) or token.isalpha():
+                pilha.append(No(token))
 
-            elif token in ExpressionTree.OPERATORS:
+            elif token in ArvoreExpressao.OPERADORES:
                 # operador binário
-                if len(stack) < 2:
+                if len(pilha) < 2:
                     raise ValueError("Expressão malformada: operador sem operandos suficientes")
-                right = stack.pop()
-                left = stack.pop()
-                stack.append(Node(token, left, right))
+                direita = pilha.pop()
+                esquerda = pilha.pop()
+                pilha.append(No(token, esquerda, direita))
             else:
                 raise ValueError(f"Token desconhecido: {token}")
 
-        if len(stack) != 1:
+        if len(pilha) != 1:
             raise ValueError("Expressão malformada: resultado inválido")
-        return stack[0]
+        return pilha[0]
 
-    @staticmethod
-    def is_number(t):
-        try:
-            complex(t)
-            return True
-        except (ValueError, TypeError):
-            return False
+    # @staticmethod
+    # def is_number(t):
+    #     try:
+    #         complex(t)
+    #         return True
+    #     except (ValueError, TypeError):
+    #         return False

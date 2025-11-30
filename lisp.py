@@ -1,15 +1,15 @@
-class Lisp:
+class ConversorLisp:
     @staticmethod
-    def to_lisp(node):
-        if node is None:
+    def to_lisp(no):
+        if no is None:
             return ""
-        if getattr(node, 'value', None) is None:
-            raise ValueError("Node must have a 'value' attribute")
+        if getattr(no, 'valor', None) is None:
+            raise ValueError("Nó deve ter atributo 'valor'")
             
-        if getattr(node, 'left', None) is None and getattr(node, 'right', None) is None:
-            return str(node.value)
+        if getattr(no, 'esquerda', None) is None and getattr(no, 'direita', None) is None:
+            return str(no.valor)
 
-        if getattr(node, 'right', None) is None:
-            return f"({node.value} {Lisp.to_lisp(node.left)})"
+        if getattr(no, 'direita', None) is None:
+            return f"({no.valor} {ConversorLisp.to_lisp(no.esquerda)})"
 
-        return f"({node.value} {Lisp.to_lisp(node.left)} {Lisp.to_lisp(node.right)})"
+        return f"({no.valor} {ConversorLisp.to_lisp(no.esquerda)} {ConversorLisp.to_lisp(no.direita)})"

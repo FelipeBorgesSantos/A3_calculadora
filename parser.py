@@ -1,5 +1,5 @@
-class Parser:
-    PRECEDENCE = {
+class AnalisadorSintatico:
+    PRECEDENCIA = {
         "+": 1, "-": 1,
         "*": 2, "/": 2,
         "**": 3
@@ -9,12 +9,12 @@ class Parser:
         self.tokens = tokens
 
     def is_number(self, token):
-        # Basic validation for expected number formats
+        # Validação básica para formatos de número esperados
         if not isinstance(token, str):
             return False
-        # Allow digits, decimal point, minus/plus signs, and 'j' for complex numbers
-        valid_chars = set('0123456789.+-j')
-        if not all(c in valid_chars for c in token):
+        # Permite dígitos, ponto decimal, sinais +/- e 'j' para números complexos
+        chars_validos = set('0123456789.+-j')
+        if not all(c in chars_validos for c in token):
             return False
         try:
             complex(token)
@@ -22,52 +22,52 @@ class Parser:
         except ValueError:
             return False
 
-    def is_function(self, token):
+    def is_funcao(self, token):
         return token in ["conj", "raiz"]
 
-    def is_variable(self, t):
-        # Allow alphanumeric variables starting with a letter
+    def is_variavel(self, t):
+        # Permite variáveis alfanuméricas começando com letra
         if not isinstance(t, str) or not t:
             return False
-        if not t[0].isalpha():  # Must start with a letter
+        if not t[0].isalpha():  # Deve começar com letra
             return False
-        if not t.replace('_', '').isalnum():  # Allow letters, numbers, and underscores
+        if not t.replace('_', '').isalnum():  # Permite letras, números e underscores
             return False
-        return not self.is_function(t)
+        return not self.is_funcao(t)
 
-    def to_postfix(self):
-        output = []
-        stack = []
+    def para_posfixa(self):
+        saida = []
+        pilha = []
 
         for t in self.tokens:
-            if self.is_number(t) or self.is_variable(t):
-                output.append(t)
+            if self.is_number(t) or self.is_variavel(t):
+                saida.append(t)
 
-            elif t in self.PRECEDENCE:
-                while (stack and stack[-1] in self.PRECEDENCE and
-                       self.PRECEDENCE[stack[-1]] > self.PRECEDENCE[t]):
-                    output.append(stack.pop())
-                stack.append(t)
+            elif t in self.PRECEDENCIA:
+                while (pilha and pilha[-1] in self.PRECEDENCIA and
+                       self.PRECEDENCIA[pilha[-1]] > self.PRECEDENCIA[t]):
+                    saida.append(pilha.pop())
+                pilha.append(t)
 
             elif t == "(":
-                stack.append(t)
+                pilha.append(t)
 
             elif t == ")":
-                while stack and stack[-1] != "(":
-                    output.append(stack.pop())
-                if not stack:
+                while pilha and pilha[-1] != "(":
+                    saida.append(pilha.pop())
+                if not pilha:
                     raise ValueError("Parênteses desbalanceados")
-                stack.pop()
+                pilha.pop()
 
-            elif self.is_function(t):
-                stack.append(t)
+            elif self.is_funcao(t):
+                pilha.append(t)
 
             else:
                 raise ValueError(f"Símbolo inesperado: {t}")
 
-        while stack:
-            if stack[-1] == "(":
+        while pilha:
+            if pilha[-1] == "(":
                 raise ValueError("Parênteses desbalanceados")
-            output.append(stack.pop())
+            saida.append(pilha.pop())
 
-        return output
+        return saida

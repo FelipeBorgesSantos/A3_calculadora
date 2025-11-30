@@ -1,45 +1,45 @@
 import cmath
 
-class Evaluator:
-    FUNCTIONS = {"conj", "raiz"}
+class Avaliador:
+    FUNCOES = {"conj", "raiz"}
 
     @staticmethod
-    def _validate_operands(op, a, b=None):
+    def _validar_operandos(op, a, b=None):
         if op in ["+", "-", "*", "/", "**"] and (a is None or b is None):
             raise ValueError("Operandos inválidos")
         if op in ["conj", "raiz"] and a is None:
             raise ValueError("Operando inválido")
 
     @staticmethod
-    def evaluate(node, variables):
-        if node is None or not hasattr(node, 'value'):
+    def avaliar(no, variaveis):
+        if no is None or not hasattr(no, 'valor'):
             raise ValueError("Nó inválido")
 
         # número
         try:
-            return complex(node.value)
+            return complex(no.valor)
         except (ValueError, TypeError):
             pass
 
         # variável
-        if node.value.isalpha() and node.value not in Evaluator.FUNCTIONS:
-            if node.value not in variables:
-                raise ValueError(f"Variável '{node.value}' não definida")
-            return variables[node.value]
+        if no.valor.isalpha() and no.valor not in Avaliador.FUNCOES:
+            if no.valor not in variaveis:
+                raise ValueError(f"Variável '{no.valor}' não definida")
+            return variaveis[no.valor]
 
         # recursão
-        a = Evaluator.evaluate(node.left, variables) if node.left else None
-        b = Evaluator.evaluate(node.right, variables) if node.right else None
+        a = Avaliador.avaliar(no.esquerda, variaveis) if no.esquerda else None
+        b = Avaliador.avaliar(no.direita, variaveis) if no.direita else None
 
-        op = node.value
-        Evaluator._validate_operands(op, a, b)
+        op = no.valor
+        Avaliador._validar_operandos(op, a, b)
             
         match op:
             case "+":  return a + b
             case "-":  return a - b
             case "*":  return a * b
             case "/":
-                if b == 0:
+                if abs(b) < 1e-10:
                     raise ZeroDivisionError("Divisão por zero!")
                 return a / b
             case "**": return a ** b

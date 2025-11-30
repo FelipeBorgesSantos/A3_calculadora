@@ -1,7 +1,7 @@
-class Compare:
+class Comparador:
     @staticmethod
-    def equal(a, b, depth=0):
-        if depth > 1000:
+    def equal(a, b, profundidade=0):
+        if profundidade > 1000:
             return False
         if a is None and b is None:
             return True
@@ -9,14 +9,14 @@ class Compare:
             return False
         if type(a) != type(b):
             return False
-        if not (hasattr(a, 'value') and hasattr(b, 'value')):
+        if not (hasattr(a, 'valor') and hasattr(b, 'valor')):
             return False
-        if a.value != b.value:
+        if a.valor != b.valor:
             return False
-        a_left = a.left if hasattr(a, 'left') else None
-        b_left = b.left if hasattr(b, 'left') else None
-        a_right = a.right if hasattr(a, 'right') else None
-        b_right = b.right if hasattr(b, 'right') else None
+        a_esq = a.esquerda if hasattr(a, 'esquerda') else None
+        b_esq = b.esquerda if hasattr(b, 'esquerda') else None
+        a_dir = a.direita if hasattr(a, 'direita') else None
+        b_dir = b.direita if hasattr(b, 'direita') else None
         
-        return (Compare.equal(a_left, b_left, depth + 1) and 
-                Compare.equal(a_right, b_right, depth + 1))
+        return (Comparador.equal(a_esq, b_esq, profundidade + 1) and 
+                Comparador.equal(a_dir, b_dir, profundidade + 1))
