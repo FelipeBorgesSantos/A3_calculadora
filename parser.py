@@ -1,7 +1,5 @@
-# parser.py
-
 class Parser:
-    PRECEDENCIA = {
+    PRECEDENCE = {
         "+": 1, "-": 1,
         "*": 2, "/": 2,
         "**": 3
@@ -11,17 +9,31 @@ class Parser:
         self.tokens = tokens
 
     def is_number(self, token):
+        # Basic validation for expected number formats
+        if not isinstance(token, str):
+            return False
+        # Allow digits, decimal point, minus/plus signs, and 'j' for complex numbers
+        valid_chars = set('0123456789.+-j')
+        if not all(c in valid_chars for c in token):
+            return False
         try:
             complex(token)
             return True
-        except:
+        except ValueError:
             return False
 
     def is_function(self, token):
         return token in ["conj", "raiz"]
 
     def is_variable(self, t):
-        return t.isalpha() and not self.is_function(t)
+        # Allow alphanumeric variables starting with a letter
+        if not isinstance(t, str) or not t:
+            return False
+        if not t[0].isalpha():  # Must start with a letter
+            return False
+        if not t.replace('_', '').isalnum():  # Allow letters, numbers, and underscores
+            return False
+        return not self.is_function(t)
 
     def to_postfix(self):
         output = []
@@ -31,9 +43,9 @@ class Parser:
             if self.is_number(t) or self.is_variable(t):
                 output.append(t)
 
-            elif t in self.PRECEDENCIA:
-                while (stack and stack[-1] in self.PRECEDENCIA and
-                       self.PRECEDENCIA[stack[-1]] >= self.PRECEDENCIA[t]):
+            elif t in self.PRECEDENCE:
+                while (stack and stack[-1] in self.PRECEDENCE and
+                       self.PRECEDENCE[stack[-1]] > self.PRECEDENCE[t]):
                     output.append(stack.pop())
                 stack.append(t)
 
@@ -43,15 +55,19 @@ class Parser:
             elif t == ")":
                 while stack and stack[-1] != "(":
                     output.append(stack.pop())
+                if not stack:
+                    raise ValueError("Parênteses desbalanceados")
                 stack.pop()
 
             elif self.is_function(t):
                 stack.append(t)
 
             else:
-                raise Exception(f"Símbolo inesperado: {t}")
+                raise ValueError(f"Símbolo inesperado: {t}")
 
         while stack:
+            if stack[-1] == "(":
+                raise ValueError("Parênteses desbalanceados")
             output.append(stack.pop())
 
         return output

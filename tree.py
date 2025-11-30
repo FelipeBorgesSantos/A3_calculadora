@@ -1,5 +1,3 @@
-# tree.py
-
 class Node:
     def __init__(self, value, left=None, right=None):
         self.value = value
@@ -9,6 +7,7 @@ class Node:
 
 class ExpressionTree:
     FUNCTIONS = ["conj", "raiz"]
+    OPERATORS = ["+", "-", "*", "/", "**"]
 
     @staticmethod
     def is_function(token):
@@ -20,27 +19,35 @@ class ExpressionTree:
 
         for token in postfix:
 
-            # número ou variável
-            if ExpressionTree.is_number(token):
-                stack.append(Node(token))
-
             # função unária
-            elif ExpressionTree.is_function(token):
+            if ExpressionTree.is_function(token):
+                if not stack:
+                    raise ValueError("Expressão malformada: funç��o sem operando")
                 child = stack.pop()
                 stack.append(Node(token, left=child))
 
-            else:  
+            # número ou variável
+            elif ExpressionTree.is_number(token) or token.isalpha():
+                stack.append(Node(token))
+
+            elif token in ExpressionTree.OPERATORS:
                 # operador binário
+                if len(stack) < 2:
+                    raise ValueError("Expressão malformada: operador sem operandos suficientes")
                 right = stack.pop()
                 left = stack.pop()
                 stack.append(Node(token, left, right))
+            else:
+                raise ValueError(f"Token desconhecido: {token}")
 
-        return stack[-1]
+        if len(stack) != 1:
+            raise ValueError("Expressão malformada: resultado inválido")
+        return stack[0]
 
     @staticmethod
     def is_number(t):
         try:
             complex(t)
             return True
-        except:
+        except (ValueError, TypeError):
             return False
