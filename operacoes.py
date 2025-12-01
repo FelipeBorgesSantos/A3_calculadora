@@ -4,6 +4,7 @@ from tree import ArvoreExpressao
 from evaluator import Avaliador
 from lisp import ConversorLisp
 from compare import Comparador
+
 FUNCOES = {"conj", "raiz"}
 
 
@@ -46,10 +47,11 @@ def processar_expressao(expr):
 
 def iniciar_menu():
     cmd = ''
-    print("=== CALCULADORA DE NÚMEROS COMPLEXOS ===")
+   
+    print("---> CALCULADORA DE NÚMEROS COMPLEXOS <---")
 
     while cmd != 0:
-        print("\nOpções:\n1 - Calcular expressão \n0 - Sair")
+        print("\nOpções:\n1 - Calcular expressão\n2 - Sumário \n0 - Sair")
         cmd = int(input("Digite a opção: "))
 
         if cmd == 1:
@@ -81,6 +83,13 @@ def iniciar_menu():
                 print("Opção inválida. Retornando para o menu inicial.")
         elif cmd == 0:
             print("Programa Encerrado!")
+        elif cmd == 2:
+            print("\n--> Sumário <--")
+            print("\n1 - Cálculos possíveis:\nsoma (+)\nsubtração (-)\nMultiplicação (*)\nDivisão (/)\nPotenciação (**) ")
+            print("2 - Utilize espaço para separar os sinais da expressão dos números")
+            print("3 - Para calcular conjugado utilize: conj(valor)")
+            print("4 - Para calcular raiz utilize: raiz(valor)")
+            
         else:
             print("Opção inválida. Tente novamente.")
             
