@@ -8,7 +8,7 @@ class AnalisadorSintatico:
     def __init__(self, tokens):
         self.tokens = tokens
 
-    def is_number(self, token):
+    def is_numero(self, token):
         # Validação básica para formatos de número esperados
         if not isinstance(token, str):
             return False
@@ -40,7 +40,7 @@ class AnalisadorSintatico:
         pilha = []
 
         for t in self.tokens:
-            if self.is_number(t) or self.is_variavel(t):
+            if self.is_numero(t) or self.is_variavel(t):
                 saida.append(t)
 
             elif t in self.PRECEDENCIA:
@@ -58,6 +58,9 @@ class AnalisadorSintatico:
                 if not pilha:
                     raise ValueError("Parênteses desbalanceados")
                 pilha.pop()
+                # Se há uma função na pilha, adiciona à saída
+                if pilha and self.is_funcao(pilha[-1]):
+                    saida.append(pilha.pop())
 
             elif self.is_funcao(t):
                 pilha.append(t)
