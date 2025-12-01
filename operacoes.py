@@ -1,6 +1,6 @@
 from tokenizer import Analisador
 from parser import AnalisadorSintatico
-from tree import ArvoreExpressao
+from arvore import ArvoreExpressao
 from evaluator import Avaliador
 from lisp import ConversorLisp
 from compare import Comparador
