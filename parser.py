@@ -17,7 +17,8 @@ class AnalisadorSintatico:
         if not all(c in chars_validos for c in token):
             return False
         try:
-            complex(token)
+            from complexo import NumeroComplexo
+            NumeroComplexo.de_string(token)
             return True
         except ValueError:
             return False

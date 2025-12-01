@@ -32,9 +32,10 @@ def processar_expressao(expr):
                         entrada = input(f"Valor para variável {t} (ou 'pular' para definir como 0): ")
                         if entrada.lower() == 'pular':
                             print(f"Aviso: Variável '{t}' será definida como 0")
-                            variaveis[t] = 0
+                            from complexo import NumeroComplexo
+                            variaveis[t] = NumeroComplexo(0, 0)
                             break
-                        variaveis[t] = complex(entrada)
+                        variaveis[t] = NumeroComplexo.de_string(entrada)
                         break
                     except ValueError:
                         print("Formato inválido. Use: 3+4j ou 5 ou 2j, ou 'pular'")

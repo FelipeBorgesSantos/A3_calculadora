@@ -1,4 +1,4 @@
-import cmath
+from complexo import NumeroComplexo
 
 class Avaliador:
     FUNCOES = {"conj", "raiz"}
@@ -17,7 +17,7 @@ class Avaliador:
 
         # número
         try:
-            return complex(no.valor)
+            return NumeroComplexo.de_string(str(no.valor))
         except (ValueError, TypeError):
             pass
 
@@ -35,15 +35,12 @@ class Avaliador:
         Avaliador._validar_operandos(op, a, b)
             
         match op:
-            case "+":  return a + b
-            case "-":  return a - b
-            case "*":  return a * b
-            case "/":
-                if abs(b) < 1e-10:
-                    raise ZeroDivisionError("Divisão por zero!")
-                return a / b
-            case "**": return a ** b
-            case "conj": return a.conjugate()
-            case "raiz": return cmath.sqrt(a)
+            case "+":  return a.somar(b)
+            case "-":  return a.subtrair(b)
+            case "*":  return a.multiplicar(b)
+            case "/":  return a.dividir(b)
+            case "**": return a.potencia(b.real if hasattr(b, 'real') else b)
+            case "conj": return a.conjugado()
+            case "raiz": return a.raiz_quadrada()
 
         raise ValueError(f"Operador desconhecido: {op}")
