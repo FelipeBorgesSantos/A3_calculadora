@@ -1,27 +1,34 @@
 import math
 
 class NumeroComplexo:
+    """Classe que implementa números complexos e suas operações"""
+    
     def __init__(self, real, imag):
-        self.real = real
-        self.imag = imag
+        """Cria um número complexo com parte real e imaginária"""
+        self.real = real  # Parte real (a em a+bi)
+        self.imag = imag  # Parte imaginária (b em a+bi)
     
     def somar(self, outro):
+        """Soma dois números complexos: (a+bi) + (c+di) = (a+c) + (b+d)i"""
         return NumeroComplexo(self.real + outro.real, self.imag + outro.imag)
     
     def subtrair(self, outro):
+        """Subtrai dois números complexos: (a+bi) - (c+di) = (a-c) + (b-d)i"""
         return NumeroComplexo(self.real - outro.real, self.imag - outro.imag)
     
     def multiplicar(self, outro):
+        """Multiplica dois números complexos usando a fórmula distributiva"""
         # (a+bi) * (c+di) = (ac-bd) + (ad+bc)i
         real_resultado = self.real * outro.real - self.imag * outro.imag
         imag_resultado = self.real * outro.imag + self.imag * outro.real
         return NumeroComplexo(real_resultado, imag_resultado)
     
     def dividir(self, outro):
+        """Divide dois números complexos usando o conjugado do denominador"""
         if outro.real == 0 and outro.imag == 0:
             raise ValueError("Não pode dividir por zero")
         
-        # Multiplica pelo conjugado
+        # Truque: multiplica numerador e denominador pelo conjugado
         conjugado_outro = NumeroComplexo(outro.real, -outro.imag)
         numerador = self.multiplicar(conjugado_outro)
         denominador = outro.real * outro.real + outro.imag * outro.imag
@@ -42,6 +49,8 @@ class NumeroComplexo:
                 resultado = resultado.multiplicar(self)
             
             if exp < 0:
+                if self.real == 0 and self.imag == 0:
+                    raise ValueError("Não pode elevar zero a potência negativa")
                 um = NumeroComplexo(1, 0)
                 resultado = um.dividir(resultado)
             
@@ -57,9 +66,12 @@ class NumeroComplexo:
             return NumeroComplexo(novo_r * math.cos(novo_theta), novo_r * math.sin(novo_theta))
     
     def conjugado(self):
+        """Retorna o conjugado: (a+bi) -> (a-bi)"""
         return NumeroComplexo(self.real, -self.imag)
     
     def raiz_quadrada(self):
+        """Calcula a raiz quadrada de um número complexo"""
+        # Usa a fórmula da raiz quadrada complexa
         r = math.sqrt(self.real * self.real + self.imag * self.imag)
         
         if self.imag >= 0:
@@ -72,13 +84,15 @@ class NumeroComplexo:
         return NumeroComplexo(real_resultado, imag_resultado)
     
     def __str__(self):
+        """Converte o número complexo para string no formato (a+bj)"""
         if self.imag >= 0:
             return f"({self.real}+{self.imag}j)"
         else:
-            return f"({self.real}{self.imag}j)"
+            return f"({self.real}{self.imag}j)"  # O sinal já é negativo
     
     @staticmethod
     def de_string(texto):
+        """Converte uma string como '3+4j' para NumeroComplexo"""
         texto = texto.replace(" ", "").replace("(", "").replace(")", "")
         
         if "j" not in texto:
@@ -94,7 +108,7 @@ class NumeroComplexo:
             real = float(partes[0])
             imag_str = partes[1].replace("j", "")
             imag = float(imag_str) if imag_str else 1
-        elif "-" in texto and texto.index("-") > 0:
+        elif "-" in texto[1:]:
             pos_menos = texto.index("-", 1)
             real = float(texto[:pos_menos])
             imag_str = texto[pos_menos+1:].replace("j", "")

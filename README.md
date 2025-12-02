@@ -89,7 +89,7 @@ A3_calculadora/
 ├── operacoes.py     # Interface e menu principal
 ├── tokenizer.py     # Análise léxica (tokenização)
 ├── parser.py        # Análise sintática (infixa → pós-fixa)
-├── tree.py          # Árvore de expressão
+├── arvore.py        # Árvore de expressão
 ├── evaluator.py     # Avaliador de expressões
 ├── complexo.py      # Classe para números complexos
 ├── lisp.py          # Conversor para notação LISP
