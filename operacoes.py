@@ -64,8 +64,8 @@ def iniciar_menu():
     print("---> CALCULADORA DE NÚMEROS COMPLEXOS <---")
 
     # Loop principal do programa
-    while cmd != 0:
-        print("\nOpções:\n1 - Calcular expressão\n2 - Sumário \n0 - Sair")
+    while cmd != 3:
+        print("\nOpções:\n1 - Calcular expressão\n2 - Sumário \n3 - Sair")
         try:
             cmd = int(input("Digite a opção: "))
         except ValueError:
@@ -103,8 +103,8 @@ def iniciar_menu():
                 else:
                     print("Opção inválida. Retornando para o menu inicial.")
 
-        # Opção 0: Sair
-        elif cmd == 0:
+        # Opção 3: Sair
+        elif cmd == 3:
             print("Programa Encerrado!")
         
         # Opção 2: Mostrar ajuda

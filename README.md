@@ -164,12 +164,12 @@ Resultado: (25.0+0.0j)
 - **Variáveis indefinidas**: Solicita valores automaticamente
 - **Formato inválido**: Números complexos malformados
 
-## Limitações
+## Integrantes
 
-- Potenciação aceita apenas expoentes reais
-- Funções limitadas a `conj()` e `raiz()`
-- Comparação de expressões é estrutural, não matemática
-- Interface apenas em linha de comando
+- **Pedro Henrique Fernandes** - RA: 12724141308
+- **Felipe Borges dos Santos** - RA: 12724148878
+- **Victor Leôncio** - RA: 12724128419
+- **Mateus Guirra** - RA: 12724135176
 
 ## Desenvolvimento
 
