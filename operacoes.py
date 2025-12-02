@@ -87,9 +87,9 @@ def iniciar_menu():
         elif cmd == 2:
             print("\n--> Sumário <--")
             print("\n1 - Cálculos possíveis:\nsoma (+)\nsubtração (-)\nMultiplicação (*)\nDivisão (/)\nPotenciação (**) ")
-            print("2 - Utilize espaço para separar os sinais da expressão dos números")
+            print("2 - Utilize espaços entre números e operadores")
             print("3 - Para calcular conjugado utilize: conj(valor)")
-            print("4 - Para calcular raiz utilize: raiz(valor)")
+            print("4 - Para calcular raiz quadrada utilize: raiz(valor)")
             
         else:
             print("Opção inválida. Tente novamente.")

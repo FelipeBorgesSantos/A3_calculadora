@@ -34,13 +34,19 @@ class Avaliador:
         op = no.valor
         Avaliador._validar_operandos(op, a, b)
             
-        match op:
-            case "+":  return a.somar(b)
-            case "-":  return a.subtrair(b)
-            case "*":  return a.multiplicar(b)
-            case "/":  return a.dividir(b)
-            case "**": return a.potencia(b.real if hasattr(b, 'real') else b)
-            case "conj": return a.conjugado()
-            case "raiz": return a.raiz_quadrada()
+        if op == "+":
+            return a.somar(b)
+        elif op == "-":
+            return a.subtrair(b)
+        elif op == "*":
+            return a.multiplicar(b)
+        elif op == "/":
+            return a.dividir(b)
+        elif op == "**":
+            return a.potencia(b.real if hasattr(b, 'real') else b)
+        elif op == "conj":
+            return a.conjugado()
+        elif op == "raiz":
+            return a.raiz_quadrada()
 
         raise ValueError(f"Operador desconhecido: {op}")
