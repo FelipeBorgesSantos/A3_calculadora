@@ -23,6 +23,7 @@ def processar_expressao(expr):
     print("LISP:", ConversorLisp.to_lisp(arvore))
 
     # variáveis
+    from complexo import NumeroComplexo
     variaveis = {}
     for t in tokens:
         if t.isalpha() and t not in FUNCOES:
@@ -32,7 +33,6 @@ def processar_expressao(expr):
                         entrada = input(f"Valor para variável {t} (ou 'pular' para definir como 0): ")
                         if entrada.lower() == 'pular':
                             print(f"Aviso: Variável '{t}' será definida como 0")
-                            from complexo import NumeroComplexo
                             variaveis[t] = NumeroComplexo(0, 0)
                             break
                         variaveis[t] = NumeroComplexo.de_string(entrada)
